@@ -1,0 +1,40 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
+    <!-- Custom converter for Request ID -->
+    <conversionRule conversionWord="reqId" converterClass="mtn.momo.contract.repayment.util.LoggerUtil"/>
+    <conversionRule conversionWord="x" converterClass="mtn.momo.contract.repayment.util.LoggerLevelColorConverter"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(%reqId) %clr(%logger{39}){cyan} : %m%n%wEx</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logger for SQL -->
+    <logger name="org.hibernate.SQL" level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- Logger for Hibernate transactions -->
+    <logger name="org.hibernate.engine.transaction" level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- Logger for JDBC connections -->
+    <logger name="org.hibernate.engine.jdbc.connections" level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- Logger for Hibernate type descriptors -->
+    <logger name="org.hibernate.type.descriptor.sql" level="TRACE">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
